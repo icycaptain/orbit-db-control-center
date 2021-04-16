@@ -11,7 +11,7 @@ import {
 import { initIPFS, initOrbitDB, getAllDatabases } from '../database'
 import { actions, useStateValue } from '../state'
 
-function Systems () {
+function Systems() {
   const [appState, dispatch] = useStateValue()
 
 
@@ -19,8 +19,13 @@ function Systems () {
     dispatch({ type: actions.PROGRAMS.SET_PROGRAMS_LOADING, loading: true })
 
     initIPFS().then(async (ipfs) => {
-      dispatch({ type: actions.SYSTEMS.SET_IPFS, ipfsStatus: 'Started'})
-  
+      dispatch({ type: actions.SYSTEMS.SET_IPFS, ipfsStatus: 'Started' })
+
+      setInterval(async () => {
+        let peers = await ipfs.swarm.peers()
+        dispatch({ type: actions.SYSTEMS.SET_PEERS, peers: peers })
+      }, 5000)
+
       initOrbitDB(ipfs).then(async (databases) => {
         dispatch({ type: actions.SYSTEMS.SET_ORBITDB, orbitdbStatus: 'Started' })
 
@@ -35,7 +40,7 @@ function Systems () {
 
   return (
     <Pane background='white' elevation={1}>
-      <Pane 
+      <Pane
         display='flex'
         flexDirection='column'
         alignItems='left'
@@ -50,10 +55,11 @@ function Systems () {
             marginX={minorScale(1)}
           >
             {appState.ipfsStatus === 'Started'
-              ? <Icon size={statusIconSize} icon='full-circle' color='success'/>
-              : <Icon size={statusIconSize} icon='full-circle' color='warning'/>
+              ? <Icon size={statusIconSize} icon='full-circle' color='success' />
+              : <Icon size={statusIconSize} icon='full-circle' color='warning' />
             }
             <Text paddingLeft={minorScale(2)}>IPFS</Text>
+            <Text paddingLeft={minorScale(2)}>{appState.peers.length}</Text>
           </Pane>
           <Pane
             display='flex'
@@ -61,8 +67,8 @@ function Systems () {
             marginX={majorScale(1)}
           >
             {appState.orbitdbStatus === 'Started'
-              ? <Icon size={statusIconSize} icon='full-circle' color='success'/>
-              : <Icon size={statusIconSize} icon='full-circle' color='warning'/>
+              ? <Icon size={statusIconSize} icon='full-circle' color='success' />
+              : <Icon size={statusIconSize} icon='full-circle' color='warning' />
             }
             <Text paddingLeft={minorScale(2)}>OrbitDB</Text>
           </Pane>

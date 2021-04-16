@@ -20,6 +20,7 @@ export const actions = {
   },
   SYSTEMS: {
     SET_IPFS: 'SET_IPFS',
+    SET_PEERS: 'SET_PEERS',
     SET_ORBITDB: 'SET_ORBITDB'
   },
   PROGRAMS: {

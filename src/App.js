@@ -11,7 +11,7 @@ import DatabaseView from './views/Database'
 import DatabasesView from './views/Databases'
 import SearchResultsView from './views/SearchResults'
 
-function App () {
+function App() {
   const initialState = {
     user: null,
     loginDialogOpen: false,
@@ -23,6 +23,7 @@ function App () {
     entries: [],
     orbitdbStatus: 'Starting',
     ipfsStatus: 'Starting',
+    peers: [],
     loading: {
       programs: false
     }
@@ -39,6 +40,11 @@ function App () {
         return {
           ...state,
           ipfsStatus: action.ipfsStatus
+        }
+      case actions.SYSTEMS.SET_PEERS:
+        return {
+          ...state,
+          peers: action.peers
         }
       case actions.PROGRAMS.SET_PROGRAM:
         return {

@@ -6,9 +6,10 @@ const config = {
     config: {
       Addresses: {
         Swarm: [
-          '/dns4/planethub.de/tcp/433/wss/p2p-webrtc-star'
+          '/dns4/planethub.de/tcp/443/wss/p2p-webrtc-star'
         ]
-      }
+      },
+      Bootstrap: []
     }
   }
 }
